@@ -6,6 +6,8 @@ import os
 import torch_geometric.nn as pygnn
 import math
 
+# Set the device
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 def padding_mask(seq):
     length = seq.shape[1]

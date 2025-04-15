@@ -132,21 +132,40 @@ class Coach:
 	def saveHistory(self):
 		if args.epoch == 0:
 			return
-		with open('../History/' + args.save_path + '.his', 'wb') as fs:
+		
+		# Make sure the History directory exists
+		history_dir = '../History/'
+		if not os.path.exists(history_dir):
+			os.makedirs(history_dir)
+			
+		with open(history_dir + args.save_path + '.his', 'wb') as fs:
 			pickle.dump(self.metrics, fs)
 
+		# Make sure the Models directory exists
+		models_dir = '../Models/'
+		if not os.path.exists(models_dir):
+			os.makedirs(models_dir)
+			
 		content = {
 			'model': self.model,
 		}
-		t.save(content, '../Models/' + args.save_path + '.mod')
+		t.save(content, models_dir + args.save_path + '.mod')
 		log('Model Saved: %s' % args.save_path)
 
 	def loadModel(self):
-		ckp = t.load('../Models/' + args.load_model + '.mod')
+		models_dir = '../Models/'
+		if not os.path.exists(models_dir):
+			os.makedirs(models_dir)
+			
+		history_dir = '../History/'
+		if not os.path.exists(history_dir):
+			os.makedirs(history_dir)
+			
+		ckp = t.load(models_dir + args.load_model + '.mod')
 		self.model = ckp['model']
 		self.opt = t.optim.Adam(self.model.parameters(), lr=args.lr, weight_decay=0)
 
-		with open('../History/' + args.load_model + '.his', 'rb') as fs:
+		with open(history_dir + args.load_model + '.his', 'rb') as fs:
 			self.metrics = pickle.load(fs)
 		log('Model Loaded')	
 
@@ -154,6 +173,11 @@ if __name__ == '__main__':
 	os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
 	setproctitle.setproctitle('proc_title')
 	logger.saveDefault = True
+	
+	# Check if the GPU is available
+	print(f"CUDA is available or not: {t.cuda.is_available()}")
+	if t.cuda.is_available():
+		print(f"Current GPU: {t.cuda.get_device_name(0)}")
 	
 	log('Start')
 	handler = DataHandler()

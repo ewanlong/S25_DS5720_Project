@@ -5,16 +5,19 @@ from Params import args
 from Utils.Utils import pairPredict
 from Transformer import Encoder_Layer, TransformerEncoderLayer
 
+# Set the device
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
 class TransGNN(nn.Module):
     def __init__(self):
         super(TransGNN, self).__init__()
 
-        self.user_embeding = nn.Parameter(nn.init.xavier_uniform_(torch.empty(args.user, args.latdim)))
-        self.item_embeding = nn.Parameter(nn.init.xavier_uniform_(torch.empty(args.item, args.latdim)))
+        # Ensure the parameters are set correctly
+        self.user_embeding = nn.Parameter(nn.init.xavier_uniform_(torch.empty(args.user, args.latdim).to(device)))
+        self.item_embeding = nn.Parameter(nn.init.xavier_uniform_(torch.empty(args.item, args.latdim).to(device)))
         self.user_transformer_encoder = TransformerEncoderLayer(d_model=args.latdim, num_heads=args.num_head, dropout=args.dropout)
         self.item_transformer_encoder = TransformerEncoderLayer(d_model=args.latdim, num_heads=args.num_head, dropout=args.dropout)
     
-
     def user_transformer_layer(self, embeds, mask=None):
         assert len(embeds.shape) <= 3, "Shape Error, embed shape is {}, out of size!".format(embeds.shape)
         if len(embeds.shape) == 2:

@@ -47,14 +47,14 @@ class DataHandler:
 		return user_sample_idx, item_sample_idx
 
 	def makeMask(self):
-		u_u_mask = t.zeros(size=(args.user, args.user), dtype=bool)
-		u_i_mask = t.ones(size=(args.user, args.item), dtype=bool)
-		i_i_mask = t.zeros(size=(args.item, args.item), dtype=bool)
-		i_u_mask = t.ones(size=(args.item, args.user), dtype=bool)
-		u_mask = t.concat([u_u_mask, u_i_mask], dim=-1)
-		i_mask = t.concat([i_u_mask, i_i_mask], dim=-1)
-		mask = t.concat([u_mask, i_mask], dim=0)
-		return mask
+	    u_u_mask = t.zeros(size=(args.user, args.user), dtype=bool).to(device)
+	    u_i_mask = t.ones(size=(args.user, args.item), dtype=bool).to(device)
+	    i_i_mask = t.zeros(size=(args.item, args.item), dtype=bool).to(device)
+	    i_u_mask = t.ones(size=(args.item, args.user), dtype=bool).to(device)
+	    u_mask = t.concat([u_u_mask, u_i_mask], dim=-1)
+	    i_mask = t.concat([i_u_mask, i_i_mask], dim=-1)
+	    mask = t.concat([u_mask, i_mask], dim=0)
+	    return mask
 
 	def LoadData(self):
 		trnMat = self.loadOneFile(self.trnfile)
