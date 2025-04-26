@@ -9,6 +9,7 @@ Recent advancements in recommender systems have been driven by Graph Neural Netw
 - [Requirements](#requirements)
 - [Dataset](#dataset)
 - [Usage](#usage)
+- [Visualizations](#visualizations)
 - [Resources](#resources)
 
 ## Requirements
@@ -76,6 +77,24 @@ python Main.py
 ```
 - Make sure that `Models/` and `History/` folders exist in the parent directory.
 - Make sure renaming the downloaded dataset file name to `ml10m` and placing it in the `data/` folder.
+
+## Visualizations
+
+After training the model, you can generate visualizations by running:
+
+```bash
+python model_visualization.py
+python visualize_training.py
+```
+- `model_visualization.py`:
+    - Visualizes user and item embeddings via t-SNE and PCA.
+    - Generates user–item recommendation heatmaps.
+    - Plots Recall@$K$ and NDCG@$K$ performance curves.
+- `visualize_training.py`:
+    - Visualizes training and testing loss curves.
+    - Plots additional metrics such as Recall and NDCG over epochs.
+  
+All output images are saved in the `Visualization/` directory.
 
 ## Resources
 
