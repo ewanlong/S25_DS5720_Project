@@ -65,8 +65,8 @@ After setting up the environment and downloading the dataset:
 - Each `.his` file contains four tracked metrics:
   - `TrainLoss`: Training loss per epoch
   - `TrainpreLoss`: Pre-training loss (if applicable)
-  - `TestRecall`: Recall@$K$ on the validation/test set
-  - `TestNDCG`: NDCG@$K$ on the validation/test set
+  - `TestRecall`: Recall@*K* on the validation/test set
+  - `TestNDCG`: NDCG@*K* on the validation/test set
 
 ### Running the Model
 
@@ -89,7 +89,7 @@ python visualize_training.py
 - `model_visualization.py`:
     - Visualizes user and item embeddings via t-SNE and PCA.
     - Generates user–item recommendation heatmaps.
-    - Plots Recall@$K$ and NDCG@$K$ performance curves.
+    - Plots Recall@*K* and NDCG@*K* performance curves.
 - `visualize_training.py`:
     - Visualizes training and testing loss curves.
     - Plots additional metrics such as Recall and NDCG over epochs.
